@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Card Slider Component Styles
+   ========================================================================== */
+
+/* Main container for the carousel */
+.carouselWrapper {
+  width: 100%;                    /* Full width of parent */
+  max-width: 72rem;              /* Maximum width (1152px) */
+  margin: 0 auto;                /* Center horizontally */
+  padding: 0 1rem;               /* Add horizontal padding */
+}
+
+/* Container for carousel items */
+.carouselContent {
+  margin-left: 1rem;             /* Add left margin for spacing */
+}
+
+/* Adjust margin for tablet screens */
+@media (min-width: 768px) {
+  .carouselContent {
+    margin-left: -1rem;          /* Negative margin for alignment */
+  }
+}
+
+/* Individual carousel item */
+.carouselItem {
+  padding-left: 0.75rem;         /* Space between items */
+  
+}
+
+/* Tablet layout - 2 cards per row */
+@media (min-width: 768px) {
+  .carouselItem {
+    padding-left: 1.25rem;       /* Increased spacing */
+    flex: 0 0 50%;              /* Take up half the width */
+  }
+}
+
+/* Desktop layout - 3 cards per row */
+@media (min-width: 1024px) {
+  .carouselItem {
+    flex: 0 0 33.333333%;       /* Take up one-third width */
+  }
+}
+
+/* Link wrapper for each card */
+.cardLink {
+  display: block;                /* Block-level element */
+  height: 100%;                  /* Full height */
+  transition: transform 0.2s ease-in-out;  /* Smooth hover effect */
+  border-radius: 0.75rem;        /* Rounded corners */
+  padding: 1rem;                 /* Inner spacing */
+}
+
+/* Hover effect */
+.cardLink:hover {
+  transform: scale(1.04);        /* Slight grow effect */
+}
+
+/* Focus state for accessibility */
+.cardLink:focus {
+  outline: none;                 /* Remove default outline */
+}
+
+/* Main card styling */
+.card {
+  height: 100%;                  /* Full height */
+  overflow: hidden;  
+  max-width: 18rem; 
+  align-items: center;           /* Hide overflow content */
+  border: 0.5px solid #e5e7eb;   /* Light border */
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);  /* Light gradient */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);  /* Subtle shadow */
+  border-radius: 0.75rem;        /* Rounded corners */
+  padding: 0.1rem;               /* Minimal padding */
+}
+
+/* Dark mode card background */
+.dark .card {
+  background: linear-gradient(to bottom, #111827, #030712);  /* Dark gradient */
+}
+
+/* Container for card image */
+.imageContainer {
+  position: relative;            /* For absolute image positioning */
+  width: 100%;                   /* Full width */
+  aspect-ratio: 1 / 1;          /* Square aspect ratio */
+}
+
+/* Card image styling */
+.image {
+  object-fit: cover;            /* Cover container while maintaining aspect ratio */
+  border-radius: 1rem;          /* Rounded corners */
+  padding: 0.5rem;              /* Space around image */
+}
+
+/* Placeholder when no image */
+.imagePlaceholder {
+  display: flex;                /* Flex container */
+  align-items: center;          /* Center vertically */
+  justify-content: center;      /* Center horizontally */
+  width: 100%;                  /* Full width */
+  height: 100%;                 /* Full height */
+  background-color: #f3f4f6;    /* Light gray background */
+  padding: 0.5rem;              /* Inner spacing */
+}
+
+/* Dark mode placeholder */
+.dark .imagePlaceholder {
+  background-color: #1f2937;    /* Dark gray background */
+}
+
+/* Card header section */
+.cardHeader {
+  padding: 0.5rem 0.5rem 0.5rem;  /* Equal padding on all sides */
+}
+
+/* Card title text */
+.cardTitle {
+  font-size: 1.25rem;           /* Larger text size */
+  font-weight: 700;             /* Bold text */
+  overflow: show;               /* Show overflow */
+  text-overflow: ellipsis;      /* Add ellipsis for overflow */
+  white-space: nowrap;          /* Prevent text wrapping */
+}
+
+/* Card description text */
+.cardDescription {
+  font-size: 0.875rem;          /* Smaller text size */
+  color: #6b7280;               /* Gray text color */
+  display: -webkit-box;         /* Enable line clamping */
+  -webkit-line-clamp: 5;        /* Show 5 lines max */
+  line-clamp: 5;                /* Modern line clamp */
+  -webkit-box-orient: vertical; /* Vertical text flow */
+  overflow: hidden;             /* Hide overflow */
+}
+
+/* Card content section */
+.cardContent {
+  padding: 0.5rem 0.5rem;       /* Equal padding */
+}
+
+/* Author info container */
+.authorContainer {
+  display: flex;                /* Flex container */
+  align-items: center;          /* Center vertically */
+  gap: 0.8rem;                  /* Space between elements */
+  font-size: 0.875rem;          /* Smaller text size */
+  color: #6b7280;               /* Gray text color */
+}
+
+/* Author avatar circle */
+.authorAvatar {
+  display: flex;                /* Flex container */
+  align-items: center;          /* Center vertically */
+  justify-content: center;      /* Center horizontally */
+  width: 1.5rem;                /* Fixed width */
+  height: 1.5rem;               /* Fixed height */
+  border-radius: 9999px;        /* Perfect circle */
+  background: linear-gradient(to bottom right, #60a5fa, #a78bfa);  /* Gradient background */
+}
+
+/* Author name text */
+.authorName {
+  font-weight: 500;             /* Medium font weight */
+}
+
+/* Navigation buttons container */
+.navigationContainer {
+  display: flex;                /* Flex container */
+  align-items: center;          /* Center vertically */
+  justify-content: center;      /* Center horizontally */
+  gap: 0.5rem;                  /* Space between buttons */
+  margin-top: 2.5rem;           /* Top spacing */
+}
+
+/* Navigation button styling */
+.navButton {
+  position: static;             /* Normal positioning */
+  transform: none;              /* No transform */
+  padding: 1.5rem;              /* Button padding */
+}
+
+/* Button hover effect */
+.navButton:hover {
+  background-color: #eff6ff;    /* Light blue background */
+}
+
+/* Dark mode button hover */
+.dark .navButton:hover {
+  background-color: #1f2937;    /* Dark background */
+}
+
+/* ==========================================================================
+   Breakpoint Reference
+   ========================================================================== */
+/*
+  Mobile: < 768px
+  Tablet: 768px - 1024px
+  Desktop: > 1024px
+*/
+
+/* ==========================================================================
+   Color Reference
+   ========================================================================== */
+/*
+  Primary: #3b82f6 (blue-500)
+  Text: #6b7280 (gray-500)
+  Background: 
+    Light: #ffffff to #f9fafb
+    Dark: #111827 to #030712
+  Gradient: #60a5fa to #a78bfa
+*/ 
