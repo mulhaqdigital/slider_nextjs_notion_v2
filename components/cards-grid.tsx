@@ -116,35 +116,36 @@ export function CardsGrid({ initialCards }: { initialCards: Card[] }) {
         onSuccess={handleEditSuccess}
       />
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5">
         {cards.map((card) => {
           const canManage = isAdmin || (!!user && card.creatorId === user.id);
           return (
-            <div key={card.id} className="group/card relative">
+            <div key={card.id} className="group/card relative break-inside-avoid mb-5">
               <Link
                 href={card.link || '#'}
                 target={card.link ? '_blank' : undefined}
                 className={`flex flex-col overflow-hidden rounded-2xl border border-black/8 bg-white shadow-sm transition-all hover:scale-[1.02] hover:shadow-md dark:border-white/8 dark:bg-zinc-900 ${deletingId === card.id ? 'opacity-40 pointer-events-none scale-[0.98]' : ''}`}
               >
-                <div className="relative aspect-[4/3] w-full bg-zinc-100 dark:bg-zinc-800">
-                  {card.imageUrl ? (
+                {card.imageUrl ? (
+                  <div className="relative w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                     <Image
                       src={card.imageUrl}
                       alt={card.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover/card:scale-[1.03]"
+                      width={600}
+                      height={400}
+                      className="w-full h-auto object-cover transition-transform duration-300 group-hover/card:scale-[1.03]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                  ) : (
-                    <div className="flex h-full items-center justify-center">
-                      <ImageIcon className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
-                    </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="flex h-32 items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                    <ImageIcon className="h-10 w-10 text-zinc-300 dark:text-zinc-600" />
+                  </div>
+                )}
 
                 <div className="flex flex-1 flex-col gap-1.5 p-4">
                   <h3 className="truncate text-sm font-semibold">{card.title || 'Untitled'}</h3>
-                  <p className="line-clamp-5 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     {card.description || 'No description available'}
                   </p>
 
