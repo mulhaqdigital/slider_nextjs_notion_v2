@@ -185,11 +185,11 @@ export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          throw new Error(data.error || 'Failed to update card');
+          throw new Error((data as { error?: string }).error || 'Failed to update card');
         }
-        const { card: updatedCard } = data;
+        const { card: updatedCard } = data as { card: Card };
         onSuccess?.(updatedCard);
       } else {
         const res = await fetch('/api/cards', {
@@ -198,8 +198,8 @@ export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
           body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
         });
         if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.error || 'Failed to create card');
+          const data = await res.json().catch(() => ({}));
+          throw new Error((data as { error?: string }).error || 'Failed to create card');
         }
       }
 
