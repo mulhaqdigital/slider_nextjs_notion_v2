@@ -36,3 +36,7 @@ next-env.d.ts
 
 # mcp
 .claude/mcp.json
+.claude/settings.local.json
+
+# clerk keyless secrets
+.clerk/
