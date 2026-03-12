@@ -123,8 +123,8 @@ export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const lines = e.target.value.split('\n');
-    if (lines.length > 5) return;
+    const words = e.target.value.trim().split(/\s+/).filter(Boolean);
+    if (words.length > 60) return;
     setForm((f) => ({ ...f, description: e.target.value }));
   };
 
@@ -234,7 +234,7 @@ export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
             <textarea
               value={form.description}
               onChange={handleDescriptionChange}
-              placeholder="Short description (up to 5 lines)"
+              placeholder="Short description (up to 60 words)"
               rows={5}
               className="rounded-lg border border-zinc-200 bg-transparent px-3 py-2 text-sm outline-none transition-colors focus:border-zinc-400 dark:border-zinc-700 dark:focus:border-zinc-500 resize-none"
             />

@@ -144,7 +144,7 @@ export function CardsGrid({ initialCards }: { initialCards: Card[] }) {
 
                 <div className="flex flex-1 flex-col gap-1.5 p-4">
                   <h3 className="truncate text-sm font-semibold">{card.title || 'Untitled'}</h3>
-                  <p className="line-clamp-3 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="line-clamp-5 text-xs text-zinc-500 dark:text-zinc-400">
                     {card.description || 'No description available'}
                   </p>
 
