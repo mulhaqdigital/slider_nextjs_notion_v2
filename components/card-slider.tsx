@@ -1,29 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from '@/components/ui/carousel';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation } from 'swiper/modules';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Card as CardType } from '@/lib/data';
 import styles from './card-slider.module.css';
 
-const AUTOPLAY_INTERVAL = 3000;
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const NOTION_COLORS: Record<string, string> = {
   default: '#6b7280',
@@ -66,49 +55,38 @@ interface CardSliderProps {
 
 export function CardSlider({ cards }: CardSliderProps) {
   const [shuffledCards, setShuffledCards] = useState(cards);
-  const [api, setApi] = useState<CarouselApi>();
-  const isPaused = useRef(false);
 
   useEffect(() => {
     setShuffledCards(shuffleArray(cards));
   }, [cards]);
 
-  const advance = useCallback(() => {
-    if (!api || isPaused.current) return;
-    if (!api.canScrollNext()) {
-      api.scrollTo(0);
-    } else {
-      api.scrollNext();
-    }
-  }, [api]);
-
-  useEffect(() => {
-    if (!api) return;
-    const id = setInterval(advance, AUTOPLAY_INTERVAL);
-    return () => clearInterval(id);
-  }, [api, advance]);
-
   if (cards.length === 0) {
     return (
-      <div className="w-full max-w-[72rem] mx-auto px-4 py-16 text-center text-gray-500">
+      <div className="w-full py-16 text-center text-gray-500">
         <p className="text-lg">No cards available. Add entries to data/cards.json.</p>
       </div>
     );
   }
 
   return (
-    <Carousel
-      setApi={setApi}
-      opts={{ align: 'start', loop: true }}
-      className={styles.carouselWrapper}
-      onMouseEnter={() => { isPaused.current = true; }}
-      onMouseLeave={() => { isPaused.current = false; }}
-    >
-      <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
-      <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
-      <CarouselContent className={styles.carouselContent}>
+    <div className="w-full py-8">
+      <Swiper
+        modules={[Autoplay, Navigation]}
+        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+        loop={true}
+        navigation={typeof window !== 'undefined' && window.innerWidth >= 768}
+        slidesPerView={1}
+        spaceBetween={16}
+        centeredSlides={true}
+        breakpoints={{
+          640: { slidesPerView: 1.2, spaceBetween: 16 },
+          768: { slidesPerView: 2, spaceBetween: 20, centeredSlides: false },
+          1024: { slidesPerView: 3, spaceBetween: 24, centeredSlides: false },
+        }}
+        className="w-full"
+      >
         {shuffledCards.map((card) => (
-          <CarouselItem key={card.id} className={styles.carouselItem}>
+          <SwiperSlide key={card.id}>
             <Link
               href={card.link || '#'}
               target={card.link ? '_blank' : undefined}
@@ -164,9 +142,9 @@ export function CardSlider({ cards }: CardSliderProps) {
                 </CardContent>
               </Card>
             </Link>
-          </CarouselItem>
+          </SwiperSlide>
         ))}
-      </CarouselContent>
-    </Carousel>
+      </Swiper>
+    </div>
   );
 }

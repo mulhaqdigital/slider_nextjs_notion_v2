@@ -1,31 +1,3 @@
-.carouselWrapper {
-  width: 100%;
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  position: relative;
-}
-
-.carouselContent {
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
-}
-
-.carouselItem {
-  padding-left: 1rem;
-}
-
-@media (min-width: 768px) {
-  .carouselItem {
-    flex: 0 0 50%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .carouselItem {
-    flex: 0 0 33.333333%;
-  }
-}
 
 .cardLink {
   display: block;

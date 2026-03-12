@@ -120,6 +120,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    overflow-x: clip;
+  }
+
+  .swiper {
+    overflow: hidden !important;
+  }
   body {
     @apply bg-background text-foreground;
     overflow-x: clip;
