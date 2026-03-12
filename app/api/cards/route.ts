@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
   const cards = readCards();
   const newCard: Card = {
     id: Date.now().toString(),
+    creatorId: userId,
     title: title.trim(),
     description: description?.trim() || '',
     author: author?.trim() || '',

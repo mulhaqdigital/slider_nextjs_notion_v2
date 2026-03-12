@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { X, Plus, Tag, ImageIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import type { Card } from '@/lib/data';
 
 interface LabelOption {
   name: string;
@@ -12,9 +13,11 @@ interface LabelOption {
 interface Props {
   open: boolean;
   onClose: () => void;
+  editCard?: Card;
+  onSuccess?: (card: Card) => void;
 }
 
-const INITIAL = { title: '', description: '', author: '', link: '' };
+const EMPTY_FORM = { title: '', description: '', author: '', link: '' };
 
 const NOTION_COLORS: Record<string, string> = {
   default: '#6b7280',
@@ -42,9 +45,9 @@ const NOTION_BG: Record<string, string> = {
   red: '#fee2e2',
 };
 
-export function NewCardDialog({ open, onClose }: Props) {
+export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
   const router = useRouter();
-  const [form, setForm] = useState(INITIAL);
+  const [form, setForm] = useState(EMPTY_FORM);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,14 +60,35 @@ export function NewCardDialog({ open, onClose }: Props) {
   const labelInputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
+  const isEditing = !!editCard;
+
+  // Initialize form when dialog opens
   useEffect(() => {
     if (open) {
+      if (editCard) {
+        setForm({
+          title: editCard.title,
+          description: editCard.description,
+          author: editCard.author,
+          link: editCard.link,
+        });
+        setSelectedLabels(editCard.labels.map((l) => l.name));
+        setImagePreview(editCard.imageUrl || '');
+      } else {
+        setForm(EMPTY_FORM);
+        setSelectedLabels([]);
+        setImagePreview('');
+      }
+      setImageFile(null);
+      setLabelInput('');
+      setError('');
+
       fetch('/api/labels')
         .then((r) => r.json())
         .then(setExistingLabels)
         .catch(() => {});
     }
-  }, [open]);
+  }, [open, editCard]);
 
   // Close suggestions on outside click
   useEffect(() => {
@@ -95,7 +119,7 @@ export function NewCardDialog({ open, onClose }: Props) {
 
   if (!open) return null;
 
-  const set = (key: keyof typeof INITIAL) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const set = (key: keyof typeof EMPTY_FORM) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -141,7 +165,7 @@ export function NewCardDialog({ open, onClose }: Props) {
     setLoading(true);
     setError('');
     try {
-      let imageUrl = '';
+      let imageUrl = imagePreview;
       if (imageFile) {
         const fd = new FormData();
         fd.append('image', imageFile);
@@ -155,19 +179,30 @@ export function NewCardDialog({ open, onClose }: Props) {
         ? selectedLabels
         : ['New', ...selectedLabels];
 
-      const res = await fetch('/api/cards', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to create card');
+      if (isEditing) {
+        const res = await fetch(`/api/cards/${editCard.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || 'Failed to update card');
+        }
+        const { card: updatedCard } = await res.json();
+        onSuccess?.(updatedCard);
+      } else {
+        const res = await fetch('/api/cards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || 'Failed to create card');
+        }
       }
-      setForm(INITIAL);
-      setSelectedLabels([]);
-      setLabelInput('');
-      clearImage();
+
       onClose();
       router.refresh();
     } catch (err) {
@@ -183,7 +218,7 @@ export function NewCardDialog({ open, onClose }: Props) {
 
       <div className="relative w-full max-w-md rounded-2xl border border-black/10 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-zinc-900">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-base font-semibold">New Card</h2>
+          <h2 className="text-base font-semibold">{isEditing ? 'Edit Card' : 'New Card'}</h2>
           <button
             onClick={onClose}
             className="rounded-full p-1.5 transition-colors hover:bg-black/5 dark:hover:bg-white/10"
@@ -326,7 +361,7 @@ export function NewCardDialog({ open, onClose }: Props) {
             disabled={loading || !form.title.trim()}
             className="mt-1 rounded-full bg-black py-2 text-sm font-medium text-white transition-opacity hover:opacity-75 disabled:opacity-40 dark:bg-white dark:text-black"
           >
-            {loading ? 'Creating…' : 'Create Card'}
+            {loading ? (isEditing ? 'Saving…' : 'Creating…') : (isEditing ? 'Save Changes' : 'Create Card')}
           </button>
         </form>
       </div>

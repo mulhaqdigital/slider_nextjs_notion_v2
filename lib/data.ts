@@ -8,6 +8,7 @@ export interface Label {
 
 export interface Card {
   id: string;
+  creatorId?: string;
   title: string;
   description: string;
   author: string;

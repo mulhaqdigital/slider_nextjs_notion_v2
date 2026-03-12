@@ -1,11 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { User, Image as ImageIcon } from 'lucide-react';
+import { User, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Card as CardType } from '@/lib/data';
@@ -55,6 +55,8 @@ interface CardSliderProps {
 
 export function CardSlider({ cards }: CardSliderProps) {
   const [shuffledCards, setShuffledCards] = useState(cards);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setShuffledCards(shuffleArray(cards));
@@ -70,81 +72,105 @@ export function CardSlider({ cards }: CardSliderProps) {
 
   return (
     <div className="w-full py-8">
-      <Swiper
-        modules={[Autoplay, Navigation]}
-        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-        loop={true}
-        navigation={typeof window !== 'undefined' && window.innerWidth >= 768}
-        slidesPerView={1}
-        spaceBetween={16}
-        centeredSlides={true}
-        breakpoints={{
-          640: { slidesPerView: 1.2, spaceBetween: 16 },
-          768: { slidesPerView: 2, spaceBetween: 20, centeredSlides: false },
-          1024: { slidesPerView: 3, spaceBetween: 24, centeredSlides: false },
-        }}
-        className="w-full"
-      >
-        {shuffledCards.map((card) => (
-          <SwiperSlide key={card.id}>
-            <Link
-              href={card.link || '#'}
-              target={card.link ? '_blank' : undefined}
-              className={styles.cardLink}
-            >
-              <Card className={styles.card}>
-                <div className={styles.imageContainer}>
-                  {card.imageUrl ? (
-                    <Image
-                      src={card.imageUrl}
-                      alt={card.title}
-                      fill
-                      className={styles.image}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className={styles.imagePlaceholder}>
-                      <ImageIcon className="w-16 h-16 text-gray-400" />
-                    </div>
-                  )}
-                </div>
-                <CardHeader className={styles.cardHeader}>
-                  <CardTitle className={styles.cardTitle}>
-                    {card.title || 'Untitled'}
-                  </CardTitle>
-                  <CardDescription className={styles.cardDescription}>
-                    {card.description || 'No description available'}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className={styles.cardContent}>
-                  {card.labels && card.labels.length > 0 && (
-                    <div className={styles.labelsContainer}>
-                      {card.labels.map((label) => (
-                        <span
-                          key={label.name}
-                          className={styles.labelChip}
-                          style={{
-                            backgroundColor: NOTION_BG[label.color] ?? NOTION_BG.default,
-                            color: NOTION_COLORS[label.color] ?? NOTION_COLORS.default,
-                          }}
-                        >
-                          {label.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className={styles.authorContainer}>
-                    <div className={styles.authorAvatar}>
-                      <User size={14} className="text-white" />
-                    </div>
-                    <span className={styles.authorName}>{card.author || 'Anonymous'}</span>
+      <div className="relative">
+        <Swiper
+          modules={[Autoplay, Navigation]}
+          autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          loop={true}
+          navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+          onBeforeInit={(swiper) => {
+            if (typeof swiper.params.navigation === 'object') {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
+            }
+          }}
+          slidesPerView={1}
+          spaceBetween={16}
+          centeredSlides={true}
+          breakpoints={{
+            640: { slidesPerView: 1.2, spaceBetween: 16 },
+            768: { slidesPerView: 2, spaceBetween: 20, centeredSlides: false },
+            1024: { slidesPerView: 3, spaceBetween: 24, centeredSlides: false },
+          }}
+          className="w-full"
+        >
+          {shuffledCards.map((card) => (
+            <SwiperSlide key={card.id}>
+              <Link
+                href={card.link || '#'}
+                target={card.link ? '_blank' : undefined}
+                className={styles.cardLink}
+              >
+                <Card className={styles.card}>
+                  <div className={styles.imageContainer}>
+                    {card.imageUrl ? (
+                      <Image
+                        src={card.imageUrl}
+                        alt={card.title}
+                        fill
+                        className={styles.image}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className={styles.imagePlaceholder}>
+                        <ImageIcon className="w-16 h-16 text-gray-400" />
+                      </div>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+                  <CardHeader className={styles.cardHeader}>
+                    <CardTitle className={styles.cardTitle}>
+                      {card.title || 'Untitled'}
+                    </CardTitle>
+                    <CardDescription className={styles.cardDescription}>
+                      {card.description || 'No description available'}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className={styles.cardContent}>
+                    {card.labels && card.labels.length > 0 && (
+                      <div className={styles.labelsContainer}>
+                        {card.labels.map((label) => (
+                          <span
+                            key={label.name}
+                            className={styles.labelChip}
+                            style={{
+                              backgroundColor: NOTION_BG[label.color] ?? NOTION_BG.default,
+                              color: NOTION_COLORS[label.color] ?? NOTION_COLORS.default,
+                            }}
+                          >
+                            {label.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className={styles.authorContainer}>
+                      <div className={styles.authorAvatar}>
+                        <User size={14} className="text-white" />
+                      </div>
+                      <span className={styles.authorName}>{card.author || 'Anonymous'}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Custom nav buttons — desktop only */}
+        <button
+          ref={prevRef}
+          className={styles.navPrev}
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={18} strokeWidth={2.5} />
+        </button>
+        <button
+          ref={nextRef}
+          className={styles.navNext}
+          aria-label="Next slide"
+        >
+          <ChevronRight size={18} strokeWidth={2.5} />
+        </button>
+      </div>
     </div>
   );
 }

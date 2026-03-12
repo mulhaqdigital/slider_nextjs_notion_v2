@@ -151,3 +151,63 @@
 .dark .navButton:hover {
   background-color: #1f2937;
 }
+
+/* Custom navigation buttons */
+.navPrev,
+.navNext {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .navPrev,
+  .navNext {
+    display: flex;
+  }
+}
+
+.navPrev {
+  left: -1.5rem;
+}
+
+.navNext {
+  right: -1.5rem;
+}
+
+.navPrev:hover,
+.navNext:hover {
+  opacity: 0.72;
+}
+
+.navPrev:active,
+.navNext:active {
+  opacity: 0.5;
+}
+
+.navPrev:disabled,
+.navNext:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .navPrev,
+  .navNext {
+    background: #f9fafb;
+    color: #111827;
+  }
+}

@@ -9,7 +9,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const formData = await request.formData();
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch (err) {
+    return NextResponse.json({ error: `Failed to parse form data: ${err}` }, { status: 400 });
+  }
+
   const file = formData.get('image') as File | null;
 
   if (!file) {
@@ -24,10 +30,14 @@ export async function POST(request: NextRequest) {
 
   const filename = `${Date.now()}.${ext}`;
   const dir = path.join(process.cwd(), 'public', 'card-images');
-  fs.mkdirSync(dir, { recursive: true });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  fs.writeFileSync(path.join(dir, filename), buffer);
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    const buffer = Buffer.from(await file.arrayBuffer());
+    fs.writeFileSync(path.join(dir, filename), buffer);
+  } catch (err) {
+    return NextResponse.json({ error: `File write failed: ${err}` }, { status: 500 });
+  }
 
   return NextResponse.json({ url: `/card-images/${filename}` }, { status: 201 });
 }
