@@ -15,7 +15,7 @@ export function FloatingNav() {
 
   return (
     <>
-      <div className="fixed top-4 left-1/2 z-50 -translate-x-1/2">
+      <div className="fixed top-4 left-0 z-50 w-full flex justify-center px-4">
         <div className="flex items-center gap-1 rounded-full border border-black/10 bg-white/80 px-2 py-2 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-black/70">
 
           {/* Home */}

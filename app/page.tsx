@@ -31,9 +31,11 @@ export default function Home() {
           </p>
         </div>
 
-        <Suspense fallback={<CardSliderSkeleton />}>
-          <SliderSection />
-        </Suspense>
+        <div className="w-full">
+          <Suspense fallback={<CardSliderSkeleton />}>
+            <SliderSection />
+          </Suspense>
+        </div>
         <LogoCloud />
       </div>
     </main>
