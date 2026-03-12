@@ -185,11 +185,11 @@ export function NewCardDialog({ open, onClose, editCard, onSuccess }: Props) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...form, imageUrl, labels: labelsWithNew }),
         });
+        const data = await res.json();
         if (!res.ok) {
-          const data = await res.json();
           throw new Error(data.error || 'Failed to update card');
         }
-        const { card: updatedCard } = await res.json();
+        const { card: updatedCard } = data;
         onSuccess?.(updatedCard);
       } else {
         const res = await fetch('/api/cards', {

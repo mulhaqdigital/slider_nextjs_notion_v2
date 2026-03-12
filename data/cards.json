@@ -124,16 +124,20 @@
     "imageUrl": "/card-images/218b3ec8-0daf-8084-9f91-f40d3f445791.png",
     "labels": [
       {
+        "name": "New",
+        "color": "green"
+      },
+      {
         "name": "Robotics",
-        "color": "gray"
+        "color": "default"
       },
       {
         "name": "Competition",
-        "color": "pink"
+        "color": "default"
       },
       {
         "name": "Event",
-        "color": "yellow"
+        "color": "default"
       }
     ]
   },
@@ -232,21 +236,6 @@
       {
         "name": "Web Dev",
         "color": "blue"
-      }
-    ]
-  },
-  {
-    "id": "1773302677439",
-    "creatorId": "user_3ApBzdfbFPW6NDlrughaSEwhQqY",
-    "title": "asdfasdf",
-    "description": "sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs  sadfasdfs",
-    "author": "",
-    "link": "",
-    "imageUrl": "",
-    "labels": [
-      {
-        "name": "New",
-        "color": "green"
       }
     ]
   }

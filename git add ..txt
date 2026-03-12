@@ -1,0 +1,7 @@
+git add .
+git commit -m "pinterest style"
+git push origin main 
+
+git add . && git commit -m "limit word card" && git push origin main
+
+git add .; git commit -m "limit word card"; git push origin main
