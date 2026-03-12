@@ -4,10 +4,10 @@ import Link from 'next/link'
 export default function CallToAction() {
     return (
         <section className="py-0 w-full">
-            <div className="mx-auto rounded-3xl border px-8 py-12 md:py-20 lg:py-10">
+            <div className="mx-auto rounded-3xl border px-4 py-12 sm:px-8 md:py-20 lg:py-10">
                 <div className="text-center">
                     <h2 className="text-balance text-4xl font-semibold lg:text-5xl">Start Building</h2>
-                    <p className="mt-4">Libero sapiente aliquam quibusdam aspernatur.</p>
+                    <p className="mt-4">Launch your next project faster with our ready-to-use components.</p>
 
                     <div className="mt-12 flex flex-wrap justify-center gap-4">
                         <Button asChild size="lg">

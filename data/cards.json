@@ -1,0 +1,238 @@
+[
+  {
+    "id": "212b3ec8-0daf-803a-997b-f9ea7789fce7",
+    "title": "Darwis's Portfolio Website",
+    "description": "A clean and modern personal portfolio built with Next.js, featuring smooth, dynamic animations using Framer Motion.\nThis website serves as a personal introduction — showcasing who he is, what drives him, and the technical skills he's developed over time. It also features a curated selection of projects to demonstrate his capabilities. To top it off, there's a dedicated contact section for collaborations, job opportunities, or friendly conversations. The overall experience is designed to be intuitive, visually appealing, and easy to navigate.",
+    "author": "Darwis Shathibi",
+    "link": "https://darwishathibi.com/",
+    "imageUrl": "/card-images/212b3ec8-0daf-803a-997b-f9ea7789fce7.png",
+    "labels": [
+      {
+        "name": "Portfolio",
+        "color": "purple"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "id": "1bab3ec8-0daf-8061-859a-f80838120c2e",
+    "title": "DeTA Community",
+    "description": "DETA\"Developer Community by Professionals and Students\" is a platform focused on empowering coding skills through collaboration, mentorship, and hands-on projects. It brings together experienced professionals and aspiring developers to learn, build, and grow in a supportive community.",
+    "author": "Developer Tanah Air",
+    "link": "https://detacommunity.com/",
+    "imageUrl": "/card-images/1bab3ec8-0daf-8061-859a-f80838120c2e.png",
+    "labels": [
+      {
+        "name": "Community",
+        "color": "green"
+      },
+      {
+        "name": "Mentorship",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "id": "1bbb3ec8-0daf-815f-87f4-f85f4513f245",
+    "title": "DeTA Meetup",
+    "description": "DeTA Meetup is a place to be an awesome developer. 🚀 Connect with fellow developers and creators, engage in hands-on activities, and explore exciting networking opportunities. Showcase your projects, exchange ideas, and be part of a thriving tech community!",
+    "author": "Developer Tanah Air",
+    "link": "https://detacommunity.com/",
+    "imageUrl": "/card-images/1bbb3ec8-0daf-815f-87f4-f85f4513f245.png",
+    "labels": [
+      {
+        "name": "Community",
+        "color": "green"
+      },
+      {
+        "name": "Event",
+        "color": "yellow"
+      },
+      {
+        "name": "Networking",
+        "color": "orange"
+      }
+    ]
+  },
+  {
+    "id": "1b4b3ec8-0daf-8156-be79-d55af17981f9",
+    "title": "Forthify Technologies",
+    "description": "Tech startup established in IIUM, based in Gombak, powered by a dedicated community. Focusing on modern and state-of-the-art web application solutions to build visually stunning and impactful software.",
+    "author": "Forthify",
+    "link": "https://forthify.tech",
+    "imageUrl": "/card-images/1b4b3ec8-0daf-8156-be79-d55af17981f9.jpg",
+    "labels": [
+      {
+        "name": "Startup",
+        "color": "orange"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "id": "1b2b3ec8-0daf-81ae-9db2-e326e806e8d9",
+    "title": "ICE Community",
+    "description": "ICE Community is a student-led cybersecurity initiative dedicated to empowering university clubs in Malaysia. Our mission is to foster a strong, collaborative, and approachable cybersecurity community by providing educational resources, hands-on challenges, and networking opportunities. We aim to elevate student efforts, bridge the gap between academia and industry, and cultivate the next generation of cybersecurity professionals.",
+    "author": "ICE",
+    "link": "https://www.linkedin.com/company/ice-cybersecurity-enthusiast",
+    "imageUrl": "/card-images/1b2b3ec8-0daf-81ae-9db2-e326e806e8d9.png",
+    "labels": [
+      {
+        "name": "Community",
+        "color": "green"
+      },
+      {
+        "name": "Cybersecurity",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "id": "1c2b3ec8-0daf-8155-9b7c-f386de7eecd6",
+    "title": "ICECTF",
+    "description": "ICECTF is a co-organize event between ICE and SIG Cybersecurity IIUM. The Capture The Flag(CTF) competition is a cybersecurity challenge where participants solve security-related puzzles or challenges to find \"flags,\" which are hidden strings or pieces of information.",
+    "author": "ICE x SIG",
+    "link": "https://www.linkedin.com/company/ice-cybersecurity-enthusiast",
+    "imageUrl": "/card-images/1c2b3ec8-0daf-8155-9b7c-f386de7eecd6.png",
+    "labels": [
+      {
+        "name": "Cybersecurity",
+        "color": "red"
+      },
+      {
+        "name": "Competition",
+        "color": "pink"
+      },
+      {
+        "name": "Event",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "id": "218b3ec8-0daf-8084-9f91-f40d3f445791",
+    "title": "IRC Website",
+    "description": "The IIUM Robotic Competition (IRC) is an annual international robotics event organized by IIUM Roboteam and Makers@IIUM. It provides a platform for primary and secondary students to showcase their robotics talents while promoting innovation, teamwork, and unity among young participants from various schools and countries.",
+    "author": "Forthify",
+    "link": "https://iiumrc.com/",
+    "imageUrl": "/card-images/218b3ec8-0daf-8084-9f91-f40d3f445791.png",
+    "labels": [
+      {
+        "name": "Robotics",
+        "color": "gray"
+      },
+      {
+        "name": "Competition",
+        "color": "pink"
+      },
+      {
+        "name": "Event",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "id": "218b3ec8-0daf-8001-87a9-c62002ae131c",
+    "title": "Modern Full-Stack Hero Workshop",
+    "description": "The Modern Full-Stack Hero Workshop equips participants with essential skills in frontend and backend development using React, Next.js, Supabase, and more. Through hands-on projects, mentorship, and real-world tools, learners build and deploy a full-stack web app, earning certification and portfolio-ready experience for future tech opportunities.",
+    "author": "Developer Tanah Air",
+    "link": "https://motionu.iium.edu.my/",
+    "imageUrl": "/card-images/218b3ec8-0daf-8001-87a9-c62002ae131c.png",
+    "labels": [
+      {
+        "name": "Workshop",
+        "color": "yellow"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      },
+      {
+        "name": "Event",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "id": "1b2b3ec8-0daf-81e8-9a01-e6686a3fbe8e",
+    "title": "Motion-U",
+    "description": "The Motion-U Club fosters a vibrant community where technology enthusiasts converge to innovate and embark on entrepreneurial journeys. Our activities such as workshop and talk, bootcamp, hands-on project, competition and study group can help members to explore the intersection of technology and entrepreneurship, equipped with skills and networks to shape the future of innovation and make meaningful impact.",
+    "author": "Motion-U 24/25",
+    "link": "https://motionu.iium.edu.my/",
+    "imageUrl": "/card-images/1b2b3ec8-0daf-81e8-9a01-e6686a3fbe8e.jpg",
+    "labels": [
+      {
+        "name": "Community",
+        "color": "green"
+      },
+      {
+        "name": "Entrepreneurship",
+        "color": "brown"
+      }
+    ]
+  },
+  {
+    "id": "212b3ec8-0daf-8082-b8a1-c8fad64e65ab",
+    "title": "Multy",
+    "description": "Multy is an all-in-one event management hub that allows you to upload your event, create a dedicated landing page, and seamlessly share it with other communities. Powered by a collaboration with Pro Reg, Multy simplifies promotion and participant registration for organizers.",
+    "author": "Deta Community",
+    "link": "https://multy.forthify.tech/",
+    "imageUrl": "/card-images/212b3ec8-0daf-8082-b8a1-c8fad64e65ab.png",
+    "labels": [
+      {
+        "name": "Startup",
+        "color": "orange"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      },
+      {
+        "name": "Event",
+        "color": "yellow"
+      }
+    ]
+  },
+  {
+    "id": "1b4b3ec8-0daf-81dc-b6a3-e83ab9bf1c57",
+    "title": "ProReg",
+    "description": "Calendar management system for university students.!",
+    "author": "Forthify",
+    "link": "https://linktr.ee/proreg",
+    "imageUrl": "/card-images/1b4b3ec8-0daf-81dc-b6a3-e83ab9bf1c57.webp",
+    "labels": [
+      {
+        "name": "Startup",
+        "color": "orange"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "id": "212b3ec8-0daf-804f-8dad-f741406bfdec",
+    "title": "que-r",
+    "description": "Traditional QR codes are static—once printed, they can't be changed.",
+    "author": "Deta Community",
+    "link": "http://que-r.org/",
+    "imageUrl": "/card-images/212b3ec8-0daf-804f-8dad-f741406bfdec.png",
+    "labels": [
+      {
+        "name": "Startup",
+        "color": "orange"
+      },
+      {
+        "name": "Web Dev",
+        "color": "blue"
+      }
+    ]
+  }
+]

@@ -13,6 +13,11 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
+export interface Label {
+  name: string;
+  color: string;
+}
+
 export interface Card {
   id: string;
   title: string;
@@ -20,6 +25,8 @@ export interface Card {
   author: string;
   link: string;
   imageUrl: string;
+  imageType: 'file' | 'external' | 'none';
+  labels: Label[];
 }
 
 type NotionProperties = {
@@ -50,6 +57,11 @@ type NotionProperties = {
       file?: { url: string };
       external?: { url: string };
     }>;
+    id: string;
+  };
+  labels: {
+    type: 'multi_select';
+    multi_select: Array<{ name: string; color: string }>;
     id: string;
   };
 };
@@ -105,13 +117,21 @@ export async function getCards(): Promise<Card[]> {
             console.warn('Missing required properties for page:', page.id);
           }
 
-          const card = {
+          const imageFile = properties.image?.files[0];
+          const imageType: Card['imageType'] =
+            imageFile?.type === 'file' ? 'file' :
+            imageFile?.type === 'external' ? 'external' : 'none';
+
+          const card: Card = {
             id: page.id,
             title: properties.title?.title[0]?.plain_text || 'Untitled',
             description: properties.description?.rich_text[0]?.plain_text || 'No description',
             author: properties.author?.rich_text[0]?.plain_text || 'Anonymous',
             link: properties.link?.url || '',
-            imageUrl: properties.image?.files[0]?.file?.url || properties.image?.files[0]?.external?.url || '',
+            // For Notion-hosted files, only store the page ID — the proxy fetches a fresh URL on each request
+            imageUrl: imageType === 'file' ? '' : (imageFile?.external?.url || ''),
+            imageType,
+            labels: properties.labels?.multi_select?.map((s) => ({ name: s.name, color: s.color })) || [],
           };
 
           // Log successful card creation
@@ -131,6 +151,8 @@ export async function getCards(): Promise<Card[]> {
             author: 'System',
             link: '',
             imageUrl: '',
+            imageType: 'none' as const,
+            labels: [],
           };
         }
       });

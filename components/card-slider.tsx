@@ -1,80 +1,120 @@
 'use client';
 
-/**
- * Card Slider Component
- * A responsive carousel that displays cards with images, titles, descriptions, and author information.
- * Built with Next.js, shadcn/ui, and Notion integration.
- * 
- * @component
- * @example
- * ```tsx
- * <CardSlider cards={notionCards} />
- * ```
- * 
- * Dependencies:
- * - shadcn/ui (Carousel, Card components)
- * - next/image (Image optimization)
- * - lucide-react (Icons)
- * - Tailwind CSS (Styling)
- */
-
 import * as React from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel'; // shadcn/ui carousel component
+  type CarouselApi,
+} from '@/components/ui/carousel';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'; // shadcn/ui card component
-import { User, Image as ImageIcon } from 'lucide-react'; // Icons from lucide-react
+} from '@/components/ui/card';
+import { User, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { Card as CardType } from '@/lib/notion';
+import type { Card as CardType } from '@/lib/data';
 import styles from './card-slider.module.css';
 
-/**
- * Props interface for the CardSlider component
- * @interface
- * @property {CardType[]} cards - Array of card data from Notion
- */
+const AUTOPLAY_INTERVAL = 3000;
+
+const NOTION_COLORS: Record<string, string> = {
+  default: '#6b7280',
+  gray: '#9ca3af',
+  brown: '#92400e',
+  orange: '#ea580c',
+  yellow: '#ca8a04',
+  green: '#16a34a',
+  blue: '#2563eb',
+  purple: '#7c3aed',
+  pink: '#db2777',
+  red: '#dc2626',
+};
+
+const NOTION_BG: Record<string, string> = {
+  default: '#f3f4f6',
+  gray: '#f3f4f6',
+  brown: '#fef3c7',
+  orange: '#ffedd5',
+  yellow: '#fefce8',
+  green: '#dcfce7',
+  blue: '#dbeafe',
+  purple: '#ede9fe',
+  pink: '#fce7f3',
+  red: '#fee2e2',
+};
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 interface CardSliderProps {
   cards: CardType[];
 }
 
 export function CardSlider({ cards }: CardSliderProps) {
+  const [shuffledCards, setShuffledCards] = useState(cards);
+  const [api, setApi] = useState<CarouselApi>();
+  const isPaused = useRef(false);
+
+  useEffect(() => {
+    setShuffledCards(shuffleArray(cards));
+  }, [cards]);
+
+  const advance = useCallback(() => {
+    if (!api || isPaused.current) return;
+    if (!api.canScrollNext()) {
+      api.scrollTo(0);
+    } else {
+      api.scrollNext();
+    }
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+    const id = setInterval(advance, AUTOPLAY_INTERVAL);
+    return () => clearInterval(id);
+  }, [api, advance]);
+
+  if (cards.length === 0) {
+    return (
+      <div className="w-full max-w-[72rem] mx-auto px-4 py-16 text-center text-gray-500">
+        <p className="text-lg">No cards available. Add entries to data/cards.json.</p>
+      </div>
+    );
+  }
+
   return (
-    // Main carousel wrapper with responsive max-width and padding
     <Carousel
-      opts={{
-        align: 'start',
-        loop: true, // Enable infinite loop
-      }}
+      setApi={setApi}
+      opts={{ align: 'start', loop: true }}
       className={styles.carouselWrapper}
+      onMouseEnter={() => { isPaused.current = true; }}
+      onMouseLeave={() => { isPaused.current = false; }}
     >
-      {/* Carousel content with negative margin for alignment */}
+      <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
+      <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
       <CarouselContent className={styles.carouselContent}>
-        {cards.map((card) => (
-          // Individual card item with responsive width breakpoints
-          <CarouselItem 
-            key={card.id} 
-            className={styles.carouselItem}
-          >
-            {/* Card link wrapper with hover and focus effects */}
-            <Link 
-              href={card.link || '#'} 
-              target={card.link ? "_blank" : undefined} 
+        {shuffledCards.map((card) => (
+          <CarouselItem key={card.id} className={styles.carouselItem}>
+            <Link
+              href={card.link || '#'}
+              target={card.link ? '_blank' : undefined}
               className={styles.cardLink}
             >
-              {/* Main card component with gradient background */}
               <Card className={styles.card}>
-                {/* Image section with gradient background fallback */}
                 <div className={styles.imageContainer}>
                   {card.imageUrl ? (
                     <Image
@@ -82,30 +122,40 @@ export function CardSlider({ cards }: CardSliderProps) {
                       alt={card.title}
                       fill
                       className={styles.image}
-                      sizes="(max-width: 250px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   ) : (
-                    // Placeholder icon when no image is available
                     <div className={styles.imagePlaceholder}>
                       <ImageIcon className="w-16 h-16 text-gray-400" />
                     </div>
                   )}
                 </div>
-                {/* Card content section */}
                 <CardHeader className={styles.cardHeader}>
-                  {/* Title with single line truncation */}
                   <CardTitle className={styles.cardTitle}>
                     {card.title || 'Untitled'}
                   </CardTitle>
-                  {/* Description with two-line truncation */}
                   <CardDescription className={styles.cardDescription}>
                     {card.description || 'No description available'}
                   </CardDescription>
                 </CardHeader>
-                {/* Author section */}
                 <CardContent className={styles.cardContent}>
+                  {card.labels && card.labels.length > 0 && (
+                    <div className={styles.labelsContainer}>
+                      {card.labels.map((label) => (
+                        <span
+                          key={label.name}
+                          className={styles.labelChip}
+                          style={{
+                            backgroundColor: NOTION_BG[label.color] ?? NOTION_BG.default,
+                            color: NOTION_COLORS[label.color] ?? NOTION_COLORS.default,
+                          }}
+                        >
+                          {label.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <div className={styles.authorContainer}>
-                    {/* Author avatar with gradient background */}
                     <div className={styles.authorAvatar}>
                       <User size={14} className="text-white" />
                     </div>
@@ -117,43 +167,6 @@ export function CardSlider({ cards }: CardSliderProps) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      {/* Navigation buttons */}
-      <div className={styles.navigationContainer}>
-        <CarouselPrevious className={styles.navButton} />
-        <CarouselNext className={styles.navButton} />
-      </div>
     </Carousel>
   );
 }
-
-/**
- * Style References:
- * 
- * Breakpoints:
- * - Mobile: < 768px (1 card)
- * - Tablet: 768px - 1024px (2 cards)
- * - Desktop: > 1024px (3 cards)
- * 
- * Colors:
- * - Gradient backgrounds: blue-400 to purple-500
- * - Card background: white to gray-50 (light), gray-900 to gray-950 (dark)
- * - Text: Default theme colors with muted variants
- * 
- * Animations:
- * - Hover scale: 1.02
- * - Transitions: transform, colors
- * 
- * Components used from shadcn/ui:
- * - Carousel: For sliding functionality
- * - Card: Base card structure
- * 
- * Image handling:
- * - next/image for optimization
- * - object-cover for proper scaling
- * - Fallback icon from lucide-react
- * 
- * Accessibility:
- * - Focus states for keyboard navigation
- * - Alt text for images
- * - Semantic HTML structure
- */ 
